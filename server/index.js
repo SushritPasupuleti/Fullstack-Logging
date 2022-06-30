@@ -20,8 +20,16 @@ app.use(morgan('combined', { stream: accessLogStream }))
 // 	morgan(':method :url :status :res[content-length] - :response-time ms', {stream: accessLogStream})
 // )
 
+const winstonLogger = require('./logger');
+
 app.get('/', (req, res) => {
-  res.send('Hello There.')
+	try {
+		winstonLogger.info('Executed "/" endpoint');
+		res.send('Hello There.')
+	}
+	catch (ex) {
+		winstonLogger.error(ex);
+	}
 })
 
 app.listen(port, () => {
